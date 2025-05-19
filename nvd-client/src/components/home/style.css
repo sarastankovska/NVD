@@ -1,0 +1,20 @@
+.home-nav-container {
+    border-bottom: 1px solid #ececec;
+}
+
+.event-date-info {
+    padding: 4px 16px;
+    border: 1px solid #888888;
+    color: #303030;
+    background-color: #A6E4DD;
+    border-radius: 4px;
+}
+
+.event-title {
+    color: #F3646B;
+    font-weight: 500;
+}
+
+.card-body {
+    background-color: #F8F9FB;
+}

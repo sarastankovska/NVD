@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@Entity
 public class LaundryRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +16,15 @@ public class LaundryRoom {
     @ManyToOne
     private LaundryMachine machine;
 
-    public LaundryRoom(StudentDorm studentDorm, LaundryMachine machine) {
+    public LaundryRoom(StudentDorm studentDorm) {
         this.studentDorm = studentDorm;
+    }
+
+    public void setStudentDorm(StudentDorm studentDorm) {
+        this.studentDorm = studentDorm;
+    }
+
+    public void setMachine(LaundryMachine machine) {
         this.machine = machine;
     }
 }
