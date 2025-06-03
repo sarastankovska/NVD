@@ -17,8 +17,8 @@ public class LaundryRoomController {
         this.laundryRoomService = laundryRoomService;
     }
     @GetMapping
-    public List<LaundryRoom> show() {
-        return laundryRoomService.show();
+    public List<LaundryRoom> show(@PathVariable Long studentDormId) {
+        return laundryRoomService.show(studentDormId);
     }
     @PostMapping("/add-lroom")
     public LaundryRoom addLaundryRoom(@RequestBody StudentDorm dorm) {

@@ -43,4 +43,9 @@ public class StudentDormServiceImpl implements StudentDormService {
         }
         return null;
     }
+
+    @Override
+    public StudentDorm findById(Long id) {
+        return this.studentDormRepository.findById(id).orElse(null);
+    }
 }

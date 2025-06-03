@@ -1,6 +1,7 @@
 package com.example.nvd.models;
 
 import com.example.nvd.service.UserService;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,10 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     private int numRoom;
+    @ManyToOne
+    @JoinColumn(name="dorm_id")
+    @JsonBackReference
+    private StudentDorm dorm;
 
     public Room(int numRoom) {
         this.numRoom = numRoom;

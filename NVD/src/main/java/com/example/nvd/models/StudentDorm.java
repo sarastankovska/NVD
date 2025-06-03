@@ -17,7 +17,7 @@ public class StudentDorm {
     private String address;
     private String director;
     private int capacity;
-    @OneToMany
+    @OneToMany(mappedBy = "dorm", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Room> rooms;
 
 

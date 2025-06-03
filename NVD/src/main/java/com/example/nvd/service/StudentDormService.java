@@ -5,6 +5,7 @@ import com.example.nvd.models.StudentDorm;
 import java.util.List;
 
 public interface StudentDormService {
+    StudentDorm findById(Long id);
     List<StudentDorm> show();
     StudentDorm addStudentDorm(String name, String address, String director, int capacity);
     void deleteStudentDorm(Long id);

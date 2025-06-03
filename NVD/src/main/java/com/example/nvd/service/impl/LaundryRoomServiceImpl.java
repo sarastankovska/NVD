@@ -8,6 +8,7 @@ import com.example.nvd.service.LaundryRoomService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LaundryRoomServiceImpl implements LaundryRoomService {
@@ -19,8 +20,8 @@ public class LaundryRoomServiceImpl implements LaundryRoomService {
     }
 
     @Override
-    public List<LaundryRoom> show() {
-        return laundryRoomRepository.findAll();
+    public List<LaundryRoom> show(Long studentDormId) {
+        return laundryRoomRepository.findAll().stream().filter(laundryRoom -> laundryRoom.getStudentDorm().getId().equals(studentDormId)).collect(Collectors.toList());
     }
 
     @Override
