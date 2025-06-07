@@ -16,17 +16,17 @@ public class ReviewController {
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
-    @GetMapping
-    public List<Review> show() {
-        return reviewService.show();
+    @GetMapping("/{dormId}")
+    public List<Review> show(@PathVariable Long dormId) {
+        return reviewService.show(dormId);
     }
     @PostMapping("/add")
-    public Review addReview(@RequestBody User user,@RequestBody String comment,@RequestBody int stars) {
-        return reviewService.addReview(user, comment, stars);
+    public Review addReview(@RequestBody User user,@RequestBody String comment,@RequestBody int stars,@RequestBody Long dormId) {
+        return reviewService.addReview(user, comment, stars,dormId);
     }
     @PutMapping("/edit/{id}")
-    public Review editReview(@PathVariable Long id,@RequestBody User user,@RequestBody String comment, @RequestBody int stars) {
-        return reviewService.editReview(id, user, comment, stars);
+    public Review editReview(@PathVariable Long id,@RequestBody User user,@RequestBody String comment, @RequestBody int stars,@RequestBody Long dormId) {
+        return reviewService.editReview(id, user, comment, stars,dormId);
     }
     @PostMapping("/delete/{id}")
     public void deleteReview(@PathVariable Long id) {

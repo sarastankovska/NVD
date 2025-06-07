@@ -3,6 +3,7 @@ package com.example.nvd.service.impl;
 import com.example.nvd.models.LaundryMachine;
 import com.example.nvd.models.LaundryRoom;
 import com.example.nvd.models.StudentDorm;
+import com.example.nvd.repository.LaundryMachineRepository;
 import com.example.nvd.repository.LaundryRoomRepository;
 import com.example.nvd.service.LaundryRoomService;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,20 @@ import java.util.stream.Collectors;
 public class LaundryRoomServiceImpl implements LaundryRoomService {
 
     private final LaundryRoomRepository laundryRoomRepository;
+    private final LaundryMachineRepository laundryMachineRepository;
 
-    public LaundryRoomServiceImpl(LaundryRoomRepository laundryRoomRepository) {
+    public LaundryRoomServiceImpl(LaundryRoomRepository laundryRoomRepository, LaundryMachineRepository laundryMachineRepository) {
         this.laundryRoomRepository = laundryRoomRepository;
+        this.laundryMachineRepository = laundryMachineRepository;
     }
 
     @Override
-    public List<LaundryRoom> show(Long studentDormId) {
-        return laundryRoomRepository.findAll().stream().filter(laundryRoom -> laundryRoom.getStudentDorm().getId().equals(studentDormId)).collect(Collectors.toList());
+    public LaundryRoom show(Long studentDormId) {
+        return laundryRoomRepository.findAll()
+                .stream()
+                .filter(lr -> lr.getStudentDorm() != null && lr.getStudentDorm().getId().equals(studentDormId))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -32,7 +39,14 @@ public class LaundryRoomServiceImpl implements LaundryRoomService {
 
     @Override
     public void addLaundryMachine(Long id) {
-        LaundryRoom lr = laundryRoomRepository.findById(id).orElse(null);
-        lr.setMachine(new LaundryMachine(false));
+            LaundryRoom lr = laundryRoomRepository.findById(id).orElse(null);
+            if (lr == null) {
+                throw new RuntimeException("Laundry room not found");
+            }
+            LaundryMachine machine = new LaundryMachine(false);
+            machine.setLaundryRoom(lr);
+            lr.getMachine().add(machine);
+            laundryRoomRepository.save(lr);
+
     }
 }

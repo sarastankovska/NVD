@@ -5,12 +5,18 @@ import './App.css'
 import axios from 'axios'
 import Login from './components/login'
 import Home from './components/home/home'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 
   return (
     <>
-      <Home/>
+      <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
     </>
   )
 }

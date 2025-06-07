@@ -11,5 +11,7 @@ public interface UserService {
     User addUser(String name, String password, String email, StudentDorm dorm, int yearOfStudy, Faculty faculty);
     User editUser(Long id,String name, String password, String email, StudentDorm dorm, int yearOfStudy, Faculty faculty);
     void deleteUser(Long id);
+    List<User> userShowByRoom(Long id);
+    public User login(String email, String password);
 
 }

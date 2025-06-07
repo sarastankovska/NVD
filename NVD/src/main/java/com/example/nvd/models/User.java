@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name="dorm_users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +22,8 @@ public class User {
     private int yearOfStudy;
     @ManyToOne
     private Faculty faculty;
-    @OneToMany
-    private List<Room> rooms;
+    @ManyToOne
+    private Room room;
 
     public User(String name, String password, String email, StudentDorm dorm, int yearOfStudy, Faculty faculty) {
         this.name = name;
@@ -33,31 +34,7 @@ public class User {
         this.faculty = faculty;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
-    public void setDorm(StudentDorm dorm) {
-        this.dorm = dorm;
-    }
-
-    public void setYearOfStudy(int yearOfStudy) {
-        this.yearOfStudy = yearOfStudy;
-    }
-
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
-    }
-
-    public void setRooms(Room rooms) {
-        this.rooms.add(rooms);
-    }
 }

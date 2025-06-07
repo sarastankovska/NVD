@@ -18,3 +18,21 @@
 .card-body {
     background-color: #F8F9FB;
 }
+.doorBg{
+    background: url('/img/door.png');
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+}
+
+.laundry-machine-active {
+    width: 20px;
+    height: 20px;
+    background-color: green;
+}
+
+.laundry-machine-inactive {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+}
