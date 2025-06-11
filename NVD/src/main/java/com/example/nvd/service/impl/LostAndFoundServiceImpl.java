@@ -1,6 +1,7 @@
 package com.example.nvd.service.impl;
 
 import com.example.nvd.models.LostAndFound;
+import com.example.nvd.models.User;
 import com.example.nvd.repository.LostAndFoundRepository;
 import com.example.nvd.service.LostAndFoundService;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class LostAndFoundServiceImpl implements LostAndFoundService {
     }
 
     @Override
-    public LostAndFound addLostAndFound(String title, String description, String username, Byte[] img) {
-        LostAndFound laf = new LostAndFound(title, description, username, img);
+    public LostAndFound addLostAndFound(LostAndFound lostAndFound) {
+        LostAndFound laf = new LostAndFound(lostAndFound.getTitle(),lostAndFound.getDescription(),lostAndFound.getUser(),lostAndFound.getImg());
         return lostAndFoundRepository.save(laf);
     }
 }

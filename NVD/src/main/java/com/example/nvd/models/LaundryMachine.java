@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -18,6 +20,10 @@ public class LaundryMachine {
     @JoinColumn(name="laundry_id")
     @JsonBackReference
     private LaundryRoom laundryRoom;
+    private LocalDateTime occupiedUntil;
+
+
+
 
     public LaundryMachine(boolean isOccupied) {
         this.isOccupied = isOccupied;

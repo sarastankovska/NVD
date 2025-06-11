@@ -13,30 +13,17 @@ public class LostAndFound {
     private Long id;
     private String title;
     private String description;
-    private String username;
+    @ManyToOne
+    private User user;
     @Lob
-    private Byte[] img;
+    private byte[] img;
 
-    public LostAndFound(String title, String description, String username, Byte[] img) {
+    public LostAndFound(String title, String description, User user, byte[] img) {
         this.title = title;
         this.description = description;
-        this.username = username;
+        this.user = user;
         this.img = img;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setImg(Byte[] img) {
-        this.img = img;
-    }
 }

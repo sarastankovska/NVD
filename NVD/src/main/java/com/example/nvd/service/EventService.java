@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface EventService {
-    List<Event> showEvents();
+    List<Event> showEvents(Long dormId);
     Event addEvent(StudentDorm dorm, String title, String description, Date date);
     Event editEvent(Long id,Long dormId, String title, String description, Date date);
     void deleteEvent(Long id);

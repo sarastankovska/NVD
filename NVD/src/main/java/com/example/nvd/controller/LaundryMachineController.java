@@ -2,6 +2,7 @@ package com.example.nvd.controller;
 
 import com.example.nvd.models.LaundryMachine;
 import com.example.nvd.service.LaundryMachineService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,8 @@ public class LaundryMachineController {
         laundryMachineService.deleteLaundryMachine(id);
     }
     @PostMapping("/occupate/{id}")
-    public void occupate(@PathVariable Long id, @RequestBody boolean isOccupied) {
-        laundryMachineService.occupate(id, isOccupied);
+    public void occupate(@PathVariable Long id,@RequestBody boolean isOccupied) {
+        laundryMachineService.occupate(id,isOccupied);
     }
+
 }

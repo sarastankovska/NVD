@@ -1,30 +1,34 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useUser();
+
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // prevent form submission reload
+    e.preventDefault();
 
     try {
       const response = await axios.post(
         "http://localhost:8080/api/users/login",
         {
-          email: 'user@gmail.com',
-          password: 'user1',
+          email: email,
+          password: password,
         },
       );
 
       console.log("Login successful:", response.data);
+      setUser(response.data);
 
-      // Optional: store token in localStorage or context
-      // localStorage.setItem("token", response.data.token);
 
-     navigate("/"); // redirect after login
+      
+
+     navigate("/"); 
     } catch (error) {
       console.error("Login failed:", error);
       alert("Невалиден email или лозинка");
@@ -53,6 +57,8 @@ function Login() {
                   className="form-control"
                   placeholder="name@example.com"
                   required
+                   value={email}
+  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -69,6 +75,8 @@ function Login() {
                   className="form-control"
                   placeholder=""
                   required
+                    value={password}
+  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <button type="submit" className="btn btn-primary w-100" onClick={handleLogin}>

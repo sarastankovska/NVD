@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface UserService {
     List<User> show();
+    User findById(Long id);
     User addUser(String name, String password, String email, StudentDorm dorm, int yearOfStudy, Faculty faculty);
     User editUser(Long id,String name, String password, String email, StudentDorm dorm, int yearOfStudy, Faculty faculty);
     void deleteUser(Long id);

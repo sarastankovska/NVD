@@ -21,6 +21,8 @@ public class StudentDorm {
     private List<Room> rooms;
 
 
+
+
     public StudentDorm(String name, String address, String director, int capacity) {
         this.name = name;
         this.address = address;
@@ -28,21 +30,7 @@ public class StudentDorm {
         this.capacity = capacity;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
 
     public void setRooms(Room rooms) {
         this.rooms.add(rooms);

@@ -1,10 +1,11 @@
 package com.example.nvd.service;
 
 import com.example.nvd.models.LostAndFound;
+import com.example.nvd.models.User;
 
 import java.util.List;
 
 public interface LostAndFoundService {
     List<LostAndFound> show();
-    LostAndFound addLostAndFound(String title, String description, String username, Byte[] img);
+    LostAndFound addLostAndFound(LostAndFound lostAndFound);
 }

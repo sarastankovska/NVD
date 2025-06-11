@@ -1,6 +1,7 @@
 package com.example.nvd.service.impl;
 
 import com.example.nvd.models.Event;
+import com.example.nvd.models.Review;
 import com.example.nvd.models.StudentDorm;
 import com.example.nvd.repository.EventRepository;
 import com.example.nvd.repository.StudentDormRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -22,9 +24,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> showEvents() {
-        return eventRepository.findAll();
+    public List<Event> showEvents(Long dormId) {
+        return eventRepository.findAll().stream()
+                .filter(review -> review.getDorm() != null && review.getDorm().getId().equals(dormId))
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public Event addEvent(StudentDorm dorm, String title, String description, Date date) {

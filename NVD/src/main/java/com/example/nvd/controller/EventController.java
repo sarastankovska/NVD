@@ -19,9 +19,9 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @GetMapping
-    public List<Event> showEvents() {
-        return eventService.showEvents();
+    @GetMapping("/{dormId}")
+    public List<Event> showEvents(@PathVariable Long dormId) {
+        return eventService.showEvents(dormId);
     }
 
     @PostMapping("/add")

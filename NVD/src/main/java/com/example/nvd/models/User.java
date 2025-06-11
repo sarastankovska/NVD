@@ -1,9 +1,11 @@
 package com.example.nvd.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,6 +26,8 @@ public class User {
     private Faculty faculty;
     @ManyToOne
     private Room room;
+
+
 
     public User(String name, String password, String email, StudentDorm dorm, int yearOfStudy, Faculty faculty) {
         this.name = name;
