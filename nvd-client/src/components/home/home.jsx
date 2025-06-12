@@ -19,6 +19,7 @@ function Home() {
 
 
   useEffect(() => {
+    if (!user || !user.dorm) return;
     const userDormId = user.dorm.id;
     axios.get('http://localhost:8080/api/events/' + userDormId)
       .then((response) => setEventsData(response.data))

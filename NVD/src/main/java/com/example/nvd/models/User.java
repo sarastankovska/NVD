@@ -26,6 +26,8 @@ public class User {
     private Faculty faculty;
     @ManyToOne
     private Room room;
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservations;
 
 
 

@@ -43,7 +43,7 @@ public class LaundryRoomServiceImpl implements LaundryRoomService {
             if (lr == null) {
                 throw new RuntimeException("Laundry room not found");
             }
-            LaundryMachine machine = new LaundryMachine(false);
+            LaundryMachine machine = new LaundryMachine();
             machine.setLaundryRoom(lr);
             lr.getMachine().add(machine);
             laundryRoomRepository.save(lr);

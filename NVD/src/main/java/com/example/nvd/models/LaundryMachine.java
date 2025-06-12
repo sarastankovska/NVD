@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,21 +16,12 @@ public class LaundryMachine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean isOccupied;
+  //  private boolean isOccupied;
     @ManyToOne
     @JoinColumn(name="laundry_id")
     @JsonBackReference
     private LaundryRoom laundryRoom;
-    private LocalDateTime occupiedUntil;
+    @OneToMany(mappedBy = "machine")
+    private List<Reservation> reservations;
 
-
-
-
-    public LaundryMachine(boolean isOccupied) {
-        this.isOccupied = isOccupied;
-    }
-
-    public void setOccupied(boolean occupied) {
-        isOccupied = occupied;
-    }
 }

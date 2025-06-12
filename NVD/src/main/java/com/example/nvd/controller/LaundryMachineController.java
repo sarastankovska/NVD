@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/machines")
+@RequestMapping("/api/laundry")
 @CrossOrigin(origins = "http://localhost:5173")
 public class LaundryMachineController {
     private final LaundryMachineService laundryMachineService;
@@ -28,9 +28,6 @@ public class LaundryMachineController {
     public void deleteLaundryMachine(@PathVariable Long id) {
         laundryMachineService.deleteLaundryMachine(id);
     }
-    @PostMapping("/occupate/{id}")
-    public void occupate(@PathVariable Long id,@RequestBody boolean isOccupied) {
-        laundryMachineService.occupate(id,isOccupied);
-    }
+
 
 }

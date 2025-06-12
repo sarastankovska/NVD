@@ -41,9 +41,10 @@ function Header({user}) {
 
       <ul className="dropdown-menu dropdown-menu-end p-3" style={{ minWidth: "250px" }}>        <li className="mb-2"><strong>Име:</strong> {user?.name ?? '...'}</li>
         <li className="mb-2"><strong>Е-Маил:</strong> {user?.email ?? '...'}</li>
-        <li className="mb-2"><strong>Студентски дом:</strong> {user?.dorm.name ?? '...'}</li>
-        <li className="mb-2"><strong>Факултет:</strong> {user?.faculty.name ?? '...'}</li>
-        <li className="mb-3"><strong>Соба:</strong> {user?.room.numRoom ?? '...'}</li>
+       <li className="mb-2"><strong>Студентски дом:</strong> {user?.dorm?.name ?? '...'}</li>
+<li className="mb-2"><strong>Факултет:</strong> {user?.faculty?.name ?? '...'}</li>
+<li className="mb-3"><strong>Соба:</strong> {user?.room?.numRoom ?? '...'}</li>
+
         <li className="text-center">
           <button className="btn btn-sm btn-danger w-100">Одлогирајте се</button>
         </li>

@@ -10,11 +10,20 @@ function LostFound({user}){
    useEffect(() => {
   fetchData();
 }, []);
-
- const fetchData = async () => {
+const fetchData = async () => {
+  try {
     const data = await getLostFound();
-    setLostFoundData(data);
-  };
+    if (Array.isArray(data)) {
+      setLostFoundData(data);
+    } else {
+      console.error("Expected array but got:", data);
+      setLostFoundData([]); // сетирај празна низа ако не е array
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+    setLostFoundData([]); // исто и тука за fallback
+  }
+};
 
    const onAddLostFound = async () => {
     const newData = {
@@ -36,8 +45,7 @@ function LostFound({user}){
         <i className="bi bi-search me-2"></i>Изгубено / Најдено
       </h4>
 
-      {lostFoundData.map((data, index) => (
-        <div
+{Array.isArray(lostFoundData) && lostFoundData.map((data, index) => (        <div
           key={index}
           className="mb-4 p-3 rounded-4 bg-white border border-light shadow-sm position-relative"
         >
@@ -157,6 +165,6 @@ function LostFound({user}){
 </div>
 
     </>
-    )
-}
+    );
+};
 export default LostFound;

@@ -25,7 +25,7 @@ public class LaundryMachineServiceImpl implements LaundryMachineService {
 
     @Override
     public LaundryMachine addLaundryMachine() {
-        return laundryMachineRepository.save(new LaundryMachine(false));
+        return laundryMachineRepository.save(new LaundryMachine());
     }
 
     @Override
@@ -33,35 +33,8 @@ public class LaundryMachineServiceImpl implements LaundryMachineService {
         laundryMachineRepository.deleteById(id);
     }
 
-    @Override
-    public void occupate(Long id, boolean isOccupied) {
-        // laundryMachineRepository.findById(id).ifPresent(lm -> lm.setOccupied(isOccupied));
-        LaundryMachine machine = laundryMachineRepository.findById(id).orElseThrow();
-        machine.setOccupied(true);
-        machine.setOccupiedUntil(LocalDateTime.now().plusMinutes(90)); // 1.5 часа
-        laundryMachineRepository.save(machine);
-    }
 
-    @Scheduled(cron = "0 0 8 * * *") // секој ден во 8:00
-    public void resetMachines() {
-        List<LaundryMachine> machines = laundryMachineRepository.findAll();
-        for (LaundryMachine machine : machines) {
-            machine.setOccupied(false);
-            machine.setOccupiedUntil(null);
-        }
-        laundryMachineRepository.saveAll(machines);
-    }
-    @Scheduled(fixedRate = 300000) // на секои 5 минути
-    public void releaseExpiredMachines() {
-        List<LaundryMachine> machines = laundryMachineRepository.findAll();
-        for (LaundryMachine machine : machines) {
-            if (machine.isOccupied() && machine.getOccupiedUntil() != null &&
-                    machine.getOccupiedUntil().isBefore(LocalDateTime.now())) {
-                machine.setOccupied(false);
-                machine.setOccupiedUntil(null);
-            }
-        }
-        laundryMachineRepository.saveAll(machines);
-    }
+
+
 
 }

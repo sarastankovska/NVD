@@ -10,8 +10,6 @@ public interface LaundryMachineService {
 
     void deleteLaundryMachine(Long id);
 
-    void occupate(Long id, boolean isOccupied);
 
-    public void resetMachines();
-    public void releaseExpiredMachines() ;
+
 }
