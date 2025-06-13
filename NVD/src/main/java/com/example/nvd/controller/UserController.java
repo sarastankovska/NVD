@@ -1,8 +1,10 @@
 package com.example.nvd.controller;
 
 import com.example.nvd.models.Faculty;
+import com.example.nvd.models.Room;
 import com.example.nvd.models.StudentDorm;
 import com.example.nvd.models.User;
+import com.example.nvd.service.RoomService;
 import com.example.nvd.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +15,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
     private final UserService userService;
+    private final RoomService roomService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoomService roomService) {
         this.userService = userService;
+        this.roomService = roomService;
     }
     @GetMapping
     public List<User> show() {
@@ -42,5 +46,9 @@ public class UserController {
     public User login(@RequestBody User user) {
         return userService.login(user.getEmail(), user.getPassword());
     }
-
+    @PostMapping("/reserve/{userId}/{roomId}")
+    public void reserveRoom(@PathVariable Long userId, @PathVariable Long roomId) {
+        Room getRoom = roomService.findById(roomId);
+        userService.reserveRoom(getRoom, userId);
+    }
 }

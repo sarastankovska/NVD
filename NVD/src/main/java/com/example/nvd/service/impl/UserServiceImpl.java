@@ -1,8 +1,10 @@
 package com.example.nvd.service.impl;
 
 import com.example.nvd.models.Faculty;
+import com.example.nvd.models.Room;
 import com.example.nvd.models.StudentDorm;
 import com.example.nvd.models.User;
+import com.example.nvd.repository.RoomRepository;
 import com.example.nvd.repository.UserRepository;
 import com.example.nvd.service.UserService;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,12 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final RoomRepository roomRepository;
+
+    public UserServiceImpl(UserRepository userRepository, RoomRepository roomRepository) {
+        this.userRepository = userRepository;
+        this.roomRepository = roomRepository;
+    }
 
     @Override
     public User findById(Long id) {
@@ -51,16 +59,11 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
     public List<User> userShowByRoom(Long id) {
-        List<User> usersList = userRepository.findAll().stream().filter(user ->
-                user.getRoom().getId().equals(id)
-
-        ).toList();
+        List<User> usersList = userRepository.findAll().stream()
+                .filter(user -> user.getRoom() != null && user.getRoom().getId() != null && user.getRoom().getId().equals(id))
+                .toList();
         if (usersList.isEmpty())
             return Collections.emptyList();
         return usersList;
@@ -71,5 +74,12 @@ public class UserServiceImpl implements UserService {
                 .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+    }
+
+    @Override
+    public void reserveRoom(Room room,Long id) {
+        User user= userRepository.findById(id).orElse(null);
+        user.setRoom(room);
+        roomRepository.save(room);
     }
 }

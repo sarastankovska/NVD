@@ -21,8 +21,8 @@ public class ReviewController {
         return reviewService.show(dormId);
     }
     @PostMapping("/add")
-    public Review addReview(@RequestBody User user,@RequestBody String comment,@RequestBody int stars,@RequestBody Long dormId) {
-        return reviewService.addReview(user, comment, stars,dormId);
+    public Review addReview(@RequestBody Review review) {
+        return reviewService.addReview(review.getUser(), review.getComment(), review.getStars(), review.getDorm());
     }
     @PutMapping("/edit/{id}")
     public Review editReview(@PathVariable Long id,@RequestBody User user,@RequestBody String comment, @RequestBody int stars,@RequestBody Long dormId) {

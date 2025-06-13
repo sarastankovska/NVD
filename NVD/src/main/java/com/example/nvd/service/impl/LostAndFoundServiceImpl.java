@@ -27,4 +27,15 @@ public class LostAndFoundServiceImpl implements LostAndFoundService {
         LostAndFound laf = new LostAndFound(lostAndFound.getTitle(),lostAndFound.getDescription(),lostAndFound.getUser(),lostAndFound.getImg());
         return lostAndFoundRepository.save(laf);
     }
+    @Override
+    public LostAndFound findById(Long id) {
+        return lostAndFoundRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Предметот не е пронајден со ID: " + id));
+    }
+
+    @Override
+    public LostAndFound save(LostAndFound item) {
+        return lostAndFoundRepository.save(item);
+    }
+
 }

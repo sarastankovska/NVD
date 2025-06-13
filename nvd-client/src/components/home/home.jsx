@@ -15,7 +15,7 @@ function Home() {
   const [laundryData, setLaundryData] = useState([]);
   const [roomData, setRoomData] = useState([]);
   const [reviewData, setReviewData] = useState([]);
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
 
   useEffect(() => {
@@ -51,9 +51,14 @@ function Home() {
     <>
       {/* Header */}
       <Header user={user}></Header>
-      <SelectRoom roomData={roomData}></SelectRoom>
-      {/* Navbar */}
-      <nav className="bg-primary text-white py-2">
+      {
+        user.room === null ?
+         <div className="container">
+         <SelectRoom roomData={roomData} user={user} setUser={setUser}></SelectRoom>
+        </div> 
+         :
+        <>
+<nav className="bg-primary text-white py-2">
         <div className="container d-flex justify-content-around py-2">
           <a className="text-white fw-semibold text-decoration-none" href="#">
             <i className="bi bi-calendar-event me-2"></i>
@@ -91,8 +96,10 @@ function Home() {
         </div>
 
         {/* Comments Section */}
-        <Review reviewData={reviewData}></Review>
+        <Review user={user} reviewData={reviewData}></Review>
      </div>
+        </>
+     }
     </>
   );
 }

@@ -27,6 +27,11 @@ public class RoomServiceImpl implements RoomService {
         this.roomRepository.deleteById(id);
     }
 
+    @Override
+    public Room findById(Long id) {
+        return roomRepository.findById(id).orElse(null);
+    }
+
     public RoomServiceImpl(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }

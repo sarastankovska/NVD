@@ -17,7 +17,7 @@ function Laundry({ user }) {
   }, []);
 
   const fetchData = async () => {
-    const data = await getLaundry(user.id);
+    const data = await getLaundry(user.dorm.id);
     setLaundryData(data);
   };
 

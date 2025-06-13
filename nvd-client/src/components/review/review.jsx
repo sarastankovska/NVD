@@ -1,124 +1,139 @@
+import { useEffect, useState } from 'react';
 import './review.css';
+import { addReview, getReviewByDorm } from '../../service/review';
 
-function Review({ reviewData }) {
+function Review({ user }) {
+  const [description, setDescription] = useState("");
+  const [stars, setStars] = useState([]);
+  const [selectedStars, setSelectedStars] = useState(0);
+  const [reviewData, setReviewData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  const fetchData = async () => {
+    const data = await getReviewByDorm(user.dorm.id);
+    setReviewData(data);
+  }
+
+  const onSelectStar = (num) => {
+    const starNumber = num + 1;
+    let newStars = []
+    for (let i = 1; i <= starNumber; i++) {
+      newStars.push(i);
+    }
+    setStars(newStars);
+  }
+
+  const saveStars = (num) => {
+    let newStars = []
+    for (let i = 1; i <= num + 1; i++) {
+      newStars.push(i);
+    }
+    setStars(newStars);
+    setSelectedStars(num + 1);
+  }
+
+  const onAddReview = async () => {
+    await addReview(user, description, selectedStars, user.dorm);
+    setDescription('');
+    setStars([]);
+    fetchData();
+  }
+
+
   return (
-        <>
-      {/* <div className="row pt-4">
-          <div className="col-md-12">
-            <div className="card">
-              <div className="card-body">
+    <>
+      <div className="row pt-4">
+        <div className="col-md-12">
+          <div className="card">
+            <div className="card-body">
+              <div className='d-flex justify-content-between pb-3'>
                 <h5 className="card-title">Коментари</h5>
-                {reviewData && reviewData.map((data, index) => (
-                  <div key={index} className="mb-4 p-3 rounded bg-white">
-                    <div className='d-flex justify-content-between'>
-                      <h5 className="mb-1">{data.title}</h5>
-                    </div>
-                    <p className="mb-2 text-muted" style={{ fontSize: '0.9rem' }}>{data.comment}</p>
-                  </div>
-                ))}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                  Oстави коментар
+                </button>
               </div>
+              {reviewData && reviewData.map((data, index) => (
+                <div key={index} className="mb-4 p-3 rounded bg-white">
+                  <div className='d-flex justify-content-between'>
+                    <div>
+                      <i className="bi bi-person-circle fs-5"></i>
+                      <p className="mb-2"> {data.user?.name ?? '...'}</p>                    </div>
+
+                    <div className='d-flex'>
+                      {Array.from({ length: data.stars }, (_, i) => (
+                        <div key={i} className='yellow'>
+
+                          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-width="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
+                          </svg>
+                        </div>
+                      ))}</div>
+                  </div>
+
+                  <p className="mb-2 text-muted" style={{ fontSize: '0.9rem' }}>{data.comment}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      */}
 
-      <div class="col-md-12">
-        <div class="icon-cards mx-auto">
-          <div class="icon-cards__content">
-            <div class="icon-cards__item d-flex align-items-center justify-content-center">
-              <div class="feedback-container">
-                <div class="feedback-container-wrapper">
-                  <div class="feedback-wrap">
-                    <div class="feedback-stars">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                    </div>
-                  </div>
-                  <div class="feedback-inner-text text-white mt-4">
-                    <p>"Најтопла препорака до сите што се заинтересирани навистина да научат да возат, професионален и љубезен тим. Нема да згрешите"</p><br/>
-                  </div>
-                  <div class="feedback-inner-bio d-flex">
-                    <div class="feedback-bio-img">
-                      <img src="images/person_img1.jpg" alt="" />
-                    </div>
-                    <div class="feedback-bio-name text-white pl-4 pt-4">
-                      <p class="font-weight-bold feedback-name mb-2">Марија</p>
-                      <p class="feedback-name-info">Стефановска</p>
-                    </div>
-                  </div>
-                  <div class="feedback-quote-icon">
-                    <i class="fa-solid fa-quote-right"></i>
-                  </div>
-                </div>
-              </div>
+
+      </div>
+
+
+      <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="reviewModalLabel">Нов коментар</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="icon-cards__item d-flex align-items-center justify-content-center">
-              <div class="feedback-container">
-                <div class="feedback-container-wrapper">
-                  <div class="feedback-wrap">
-                    <div class="feedback-stars">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                    </div>
-                  </div>
-                  <div class="feedback-inner-text text-white mt-4">
-                    <p>"Квалитетна авто школа со добри инструктори кои ќе се погрижат за Вас."</p><br />
-                  </div>
-                  <div class="feedback-inner-bio d-flex">
-                    <div class="feedback-bio-img">
-                      <img src="images/person_img2.jpg" alt="" />
-                    </div>
-                    <div class="feedback-bio-name text-white pl-4 pt-4">
-                      <p class="font-weight-bold feedback-name mb-2">Кристијан</p>
-                      <p class="feedback-name-info">Соколовски</p>
-                    </div>
-                  </div>
-                  <div class="feedback-quote-icon">
-                    <i class="fa-solid fa-quote-right"></i>
+            <div class="modal-body">
+              <form>
+                <div className="mb-3">
+
+
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="description" className="form-label">
+                    Опис
+                  </label>
+                  <textarea
+                    id="description"
+                    className="form-control"
+                    rows="3"
+                    placeholder=""
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className="mb-3">
+                  <div className="d-flex justify-content-around">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <div key={i}
+                        className={`review-star-icon ${stars.includes(i + 1) ? 'review-star-icon-active' : ''}`}
+                        onMouseEnter={() => onSelectStar(i)}
+                        onClick={() => saveStars(i)}>
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-width="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
+                        </svg>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
-            <div class="icon-cards__item d-flex align-items-center justify-content-center">
-              <div class="feedback-container">
-                <div class="feedback-container-wrapper">
-                  <div class="feedback-wrap">
-                    <div class="feedback-stars">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                    </div>
-                  </div>
-                  <div class="feedback-inner-text text-white mt-4">
-                    <p>"Професионализам од инструкторите трпеливи за време на часовите. Ви ја препорачувам авто школата."</p><br/>
-                  </div>
-                  <div class="feedback-inner-bio d-flex">
-                    <div class="feedback-bio-img">
-                      {/* </div><img src="images/person_img3.png" alt=""/> */}
-                    </div>
-                    <div class="feedback-bio-name text-white pl-4 pt-4">
-                      <p class="font-weight-bold feedback-name mb-2">Стефан</p>
-                      <p class="feedback-name-info">Стојановски</p>
-                    </div>
-                  </div>
-                  <div class="feedback-quote-icon">
-                    <i class="fa-solid fa-quote-right"></i>
-                  </div>
-                </div>
-              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
+              <button type="button" class="btn btn-primary" onClick={onAddReview} data-bs-dismiss="modal">Зачувај</button>
             </div>
           </div>
         </div>
       </div>
-      </>
-      )
+    </>
+  )
 }
-      export default Review
+export default Review

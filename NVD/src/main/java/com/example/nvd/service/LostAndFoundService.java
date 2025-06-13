@@ -8,4 +8,7 @@ import java.util.List;
 public interface LostAndFoundService {
     List<LostAndFound> show();
     LostAndFound addLostAndFound(LostAndFound lostAndFound);
+    LostAndFound findById(Long id);
+    LostAndFound save(LostAndFound item);
+
 }

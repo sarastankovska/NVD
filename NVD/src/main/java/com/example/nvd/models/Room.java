@@ -19,12 +19,11 @@ public class Room {
     @JoinColumn(name="dorm_id")
     @JsonBackReference
     private StudentDorm dorm;
+    private int capacity;
+
 
     public Room(int numRoom) {
         this.numRoom = numRoom;
     }
 
-    public void setNumRoom(int numRoom) {
-        this.numRoom = numRoom;
-    }
 }

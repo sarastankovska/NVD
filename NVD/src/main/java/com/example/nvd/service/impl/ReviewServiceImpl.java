@@ -29,9 +29,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review addReview(User user, String comment, int stars,Long dormId) {
-        StudentDorm dorm=studentDormService.findById(dormId);
-
+    public Review addReview(User user, String comment, int stars,StudentDorm dorm) {
         Review review=new Review(user,comment,stars,dorm);
         return this.reviewRepository.save(review);
     }
